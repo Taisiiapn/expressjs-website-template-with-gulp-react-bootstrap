@@ -1,0 +1,57 @@
+{
+	"name": "ms-assessor-internal-site",
+	"version": "0.0.1",
+	"publishConfig" : {
+		"registry": "http://sinopia.apples.lan:4873/"
+	},
+	"private": true,
+	"description": "The internal website for to manage assesor tax printing",
+	"author": {
+		"name": "Jaret Pfluger",
+		"email": "japes@aberlorn.com"
+	},
+	"homepage": "http://www.aberlorn.com",
+	"repository": {
+		"type": "git",
+		"url": ""
+	},
+	"license": "(C) Mailing Services, All Rights Reserved",
+	"engines": {
+		"node": ">=0.12"
+	},
+	"bin": {
+	},
+	"main": "./server",
+	"keywords": [
+		"mailing",
+		"assessors",
+		"tax"
+	],
+	"dependencies": {
+		"csv": "^0.4.1",
+		"dot": "^1.0.3",
+		"express": "~4.11.2",
+		"multer": "^0.1.8",
+		"numeral": "^1.5.3",
+		"validator": "~3.28.0"
+	},
+	"devDependencies": {
+		"react": "^0.12.2",
+		"reactify": "^1.0.0",
+		"browserify": "^9.0.0",
+		"chai": "^2.1.1",
+		"co": "^4.4.0",
+		"mocha": "*",
+		"rimraf": "^2.3.1",
+		"supertest": "^0.15.0",
+		"gulp": "^3.8.11",
+		"gulp-bower": "^0.0.10",
+		"gulp-react": "^3.0.0",
+		"gulp-uglify": "^1.1.0",
+		"gulp-html-replace": "^1.4.4",
+		"gulp-streamify": "~0.0.5",
+		"vinyl-source-stream": "^1.1.0",
+		"watchify": "^2.4.0",
+		"glob": "~5.0.1"
+	}
+}

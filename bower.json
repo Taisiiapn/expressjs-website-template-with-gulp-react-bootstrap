@@ -1,0 +1,10 @@
+{
+	"name": "ms-assessor-internal-site",
+	"private": true,
+
+	"dependencies": {
+		"bootstrap": "^3.3.0",
+		"font-awesome": "^4.3.0",
+		"react": "^0.12.2"
+	}
+}
