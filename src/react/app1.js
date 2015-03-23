@@ -1,7 +1,7 @@
 var React = require('react'),
     Parent = require('./app1/parent');
 
-React.renderComponent(
+React.render(
   <Parent />,
   document.getElementById('app')
 );

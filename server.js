@@ -4,21 +4,18 @@ var express = require('express'),
 
 var dirRoot = process.cwd();
 
-/*
-	Test React
-*/
-/*
-React = require('react'),
-MyApp = React.createFactory(require('./src/react/parent'));
-
-var props = {};
-var myAppHtml = React.renderToString(MyApp({}));
-
-console.log(myAppHtml);
-*/
-
 app
 	.use(express.static(path.join(dirRoot, '/public')))
+	.get('/left-sidebar-with-toggle.html', function(req, res) {
+		//res.sendFile(path.join(dirRoot, '/src/main.html'));
+		res.sendFile(path.join(dirRoot, '/src/views/left-sidebar-with-toggle.html'));
+		//res.sendFile(path.join(dirRoot, req.path));
+	})
+	.get('/assessors.html', function(req, res) {
+		//res.sendFile(path.join(dirRoot, '/src/main.html'));
+		res.sendFile(path.join(dirRoot, '/src/views/assessors.html'));
+		//res.sendFile(path.join(dirRoot, req.path));
+	})
 	.get('*', function(req, res) {
 		//res.sendFile(path.join(dirRoot, '/src/main.html'));
 		res.sendFile(path.join(dirRoot, '/src/views/index.html'));
@@ -26,8 +23,6 @@ app
 	})
 	.listen(3083);
 
-console.log('test server up and listening on port 3083');
-//console.log(__dirname);
-//console.log(process.cwd());
+console.log('Server up and listening on port 3083');
 
 

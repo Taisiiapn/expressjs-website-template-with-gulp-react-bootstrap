@@ -5,6 +5,10 @@
 	"dependencies": {
 		"bootstrap": "^3.3.0",
 		"font-awesome": "^4.3.0",
-		"react": "^0.12.2"
+		"react": "^0.12.2",
+		"lodash": "^3.4.0",
+		"moment": "^2.0.0",
+		"numeraljs": "^1.5.3",
+		"validator-js": "^3.11.0"
 	}
 }
