@@ -41,12 +41,6 @@ The gulpfile contains an editable `vendors` array. Use this to control what gets
 $ npm install expressjs-website-template-with-gulp-react-bootstrap
 ```
 
-Download bower files:
-
-```js
-gulp default
-```
-
 ## RUN
 
 Production:
@@ -84,6 +78,11 @@ Run task `clean`:
 ```js
 gulp clean
 ```
+
+Clean deletes the contents of the following directories:
+
+- `public/third/`: contains a copy of bower libraries
+- `public/build/`: the compiled third party bower libraries and react modules
 
 #### Default Gulp Task
 

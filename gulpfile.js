@@ -34,7 +34,8 @@ var del = require('del');
 
 gulp.task('clean', function() {
   del([
-      'public/build/**'
+      'public/build/**',
+      'public/third/**'
     ]);
 });
 
@@ -237,7 +238,7 @@ gulp.task('watch', function() {
 var nodemon = require('gulp-nodemon');
 
 gulp.task('start-server', function () {
-  nodemon({ script: 'src/server.js', ext: 'html js', ignore: ['./public/build/**'] })
+  nodemon({ script: 'src/server.js', ext: 'html js', ignore: ['./public/build/**', './public/third/**'] })
     //.on('change', ['lint'])
     .on('restart', function () {
       console.log('Starting server at ' + new Date().toLocaleString())
@@ -265,19 +266,22 @@ gulp.task('default', function(callback) {
 });
 
 gulp.task('dev-build', function(callback) {
-  runSequence(['clean', 'debug-true'],
+  runSequence(['clean'],
+              ['bower', 'debug-true'],
               ['vendors-js', 'vendors-css', 'browserify-react', 'browserify-react-apps'],
               finishedRunSequence);
 });
 
 gulp.task('prod-build', function(callback) {
-  runSequence(['clean', 'debug-false'],
+  runSequence(['clean'],
+              ['bower', 'debug-false'],
               ['vendors-js', 'vendors-css', 'browserify-react', 'browserify-react-apps'],
               finishedRunSequence);
 });
 
 gulp.task('dev-server', function(callback) {
-  runSequence(['clean', 'debug-true'],
+  runSequence(['clean'],
+              ['bower', 'debug-true'],
               ['vendors-js', 'vendors-css', 'browserify-react', 'browserify-react-apps'],
               'watch',
               'start-server',
@@ -285,7 +289,8 @@ gulp.task('dev-server', function(callback) {
 });
 
 gulp.task('prod-server', function(callback) {
-  runSequence(['clean', 'debug-false'],
+  runSequence(['clean'],
+              ['bower', 'debug-false'],
               ['vendors-js', 'vendors-css', 'browserify-react', 'browserify-react-apps'],
               'watch',
               'start-server',
