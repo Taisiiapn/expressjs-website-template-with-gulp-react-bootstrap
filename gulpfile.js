@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var path = require('path');
+var util = require('util');
 
 /*
   DEFAULT PATHS
@@ -60,13 +61,17 @@ var minifyCSS = require('gulp-minify-css'); // css compress
 var vendors = [
         { type: 'js', path: './public/third/jquery/dist/jquery.js', varBrowserify: 'jquery', requireBrowserify: 'window.$' },
         { type: 'js', path: './public/third/bootstrap/dist/js/bootstrap.js' },
+        { type: 'js', path: './public/third/bootstrap-dialog/dist/js/bootstrap-dialog.js', varBrowserify: 'BootstrapDialog', requireBrowserify: 'window.BootstrapDialog' },
         { type: 'js', path: './public/third/react/react.js', varBrowserify: 'react', requireBrowserify: 'window.React' },
         // or REACT-ADDONS: 'bower_components/react/react-with-addons.js',
+        { type: 'js', path: './public/third/react-bootstrap/react-bootstrap.js', varBrowserify: 'ReactBootstrap', requireBrowserify: 'window.ReactBootstrap' },
         { type: 'js', path: './public/third/lodash/lodash.js', varBrowserify: 'lodash', requireBrowserify: 'window._' },
         { type: 'js', path: './public/third/moment/moment.js', varBrowserify: 'moment', requireBrowserify: 'window.moment' },
         { type: 'js', path: './public/third/numeraljs/numeral.js', varBrowserify: 'numeral', requireBrowserify: 'window.numeral' },
         { type: 'js', path: './public/third/validator-js/validator.js', varBrowserify: 'validator', requireBrowserify: 'window.validator' },
+        { type: 'js', path: './public/common/common.js', varBrowserify: 'appCommon', requireBrowserify: 'window.appCommon' },
         { type: 'css', path: './public/third/bootstrap/dist/css/bootstrap.css' },
+        { type: 'css', path: './public/third/bootstrap-dialog/dist/css/bootstrap-dialog.css' },
         { type: 'css', path: './public/third/font-awesome/css/font-awesome.css' }
       ];
 
@@ -160,12 +165,12 @@ gulp.task('browserify-react', function() {
 // The APPS using REACT
 var glob = require('glob');
 var literalify = require('literalify');
+var async = require('async');
 
-gulp.task('browserify-react-apps', function() {
+// the main react app builder
+function buildReactApp(pathFile, cb) {
 
-  var arrFiles = glob.sync(path.join(gpath.REACT, '*.js'));
-
-  if (arrFiles.length > 0) {
+  if (pathFile.length > 0) {
 
     var objVendorsREACT = {};
 
@@ -176,32 +181,38 @@ gulp.task('browserify-react-apps', function() {
       }
     }
 
-    for (var i = 0; i < arrFiles.length; i++) {
+    var fileName = path.basename(pathFile);
 
-      var pathFile = arrFiles[i];
-      var fileName = path.basename(pathFile);
+    var appBundler = browserify({
+        entries: pathFile,
+        transform: [reactify, literalify.configure(objVendorsREACT)],
+        debug: isDebug,
+        cache: {}, packageCache: {}, fullPaths: true
+      });
 
-      var appBundler = browserify({
-          entries: pathFile,
-          transform: [reactify, literalify.configure(objVendorsREACT)],
-          debug: isDebug,
-          cache: {}, packageCache: {}, fullPaths: true
-        });
+    console.log(util.format('building react file "%s"', fileName));
 
-      if (!isDebug) {
-        return appBundler
-          .bundle()
-          .pipe(source(fileName))
-          .pipe(streamify(uglify()))
-          .pipe(gulp.dest(gpath.DEST_BUILD_REACT));
-      } else {
-        return appBundler
-          .bundle()
-          .pipe(source(fileName))
-          .pipe(gulp.dest(gpath.DEST_BUILD_REACT));
-      }
+    if (!isDebug) {
+      appBundler
+        .bundle()
+        .pipe(source(fileName))
+        .pipe(streamify(uglify()))
+        .pipe(gulp.dest(gpath.DEST_BUILD_REACT));
+    } else {
+      appBundler
+        .bundle()
+        .pipe(source(fileName))
+        .pipe(gulp.dest(gpath.DEST_BUILD_REACT));
     }
   }
+  cb();
+};
+
+gulp.task('browserify-react-apps', function(cb) {
+  // get the list of top-level react files
+  var arrReactAppFiles = glob.sync(path.join(gpath.REACT, '*.js'));
+  // run each task individually
+  async.each(arrReactAppFiles, buildReactApp, cb);
 });
 
 /*
@@ -211,7 +222,10 @@ gulp.task('browserify-react-apps', function() {
 gulp.task('watch', function() {
     //gulp.watch('app/dist/js/*.js', ['js']);
     //gulp.watch('app/index.html', ['html']);
-    gulp.watch('public/third/**', ['vendors']);
+    gulp.watch('public/third/**/*.js', ['vendors-js']);
+    gulp.watch('public/third/**/*.css', ['vendors-css']);
+    gulp.watch('public/common/**/*.js', ['vendors-js']);
+    gulp.watch('public/common/**/*.css', ['vendors-css']);
     gulp.watch('node_modules/react/**/*.js', ['browserify-react']);
     gulp.watch(path.join(gpath.REACT, '/**/*.js'), ['browserify-react-apps']);
 });
@@ -223,7 +237,7 @@ gulp.task('watch', function() {
 var nodemon = require('gulp-nodemon');
 
 gulp.task('start-server', function () {
-  nodemon({ script: 'server.js', ext: 'html js', ignore: ['./public/build/**'] })
+  nodemon({ script: 'src/server.js', ext: 'html js', ignore: ['./public/build/**'] })
     //.on('change', ['lint'])
     .on('restart', function () {
       console.log('Starting server at ' + new Date().toLocaleString())
@@ -250,19 +264,19 @@ gulp.task('default', function(callback) {
               finishedRunSequence);
 });
 
-gulp.task('build-dev', function(callback) {
+gulp.task('dev-build', function(callback) {
   runSequence(['clean', 'debug-true'],
               ['vendors-js', 'vendors-css', 'browserify-react', 'browserify-react-apps'],
               finishedRunSequence);
 });
 
-gulp.task('build-prod', function(callback) {
+gulp.task('prod-build', function(callback) {
   runSequence(['clean', 'debug-false'],
               ['vendors-js', 'vendors-css', 'browserify-react', 'browserify-react-apps'],
               finishedRunSequence);
 });
 
-gulp.task('server-dev', function(callback) {
+gulp.task('dev-server', function(callback) {
   runSequence(['clean', 'debug-true'],
               ['vendors-js', 'vendors-css', 'browserify-react', 'browserify-react-apps'],
               'watch',
@@ -270,7 +284,7 @@ gulp.task('server-dev', function(callback) {
               finishedRunSequence);
 });
 
-gulp.task('server-prod', function(callback) {
+gulp.task('prod-server', function(callback) {
   runSequence(['clean', 'debug-false'],
               ['vendors-js', 'vendors-css', 'browserify-react', 'browserify-react-apps'],
               'watch',

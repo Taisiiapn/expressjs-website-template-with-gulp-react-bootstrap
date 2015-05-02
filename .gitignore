@@ -38,6 +38,9 @@ bower_components
 # Zazzy -when zazzy runs it puts running assembled config files in here and creates dirs for logs, builds or results
 .zz
 
+public/build/
+public/third/
+
 ######################################
 # Additional (The following is old: needs debugging and most likely deleting, or tucking inside the .zz directory)
 

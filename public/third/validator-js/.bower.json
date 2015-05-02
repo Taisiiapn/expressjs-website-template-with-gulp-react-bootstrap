@@ -1,7 +1,7 @@
 {
   "name": "validator-js",
   "main": "validator.js",
-  "version": "3.33.0",
+  "version": "3.39.0",
   "homepage": "https://github.com/chriso/validator.js",
   "authors": [
     "Chris O'Hara <cohara87+gh@gmail.com>"
@@ -13,13 +13,15 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "Makefile",
+    "package.json"
   ],
-  "_release": "3.33.0",
+  "_release": "3.39.0",
   "_resolution": {
     "type": "version",
-    "tag": "3.33.0",
-    "commit": "656bfdf1de75e4f39351831ed11efb9fc5a775d3"
+    "tag": "3.39.0",
+    "commit": "835e1f922a8f4ce21dde975a270131ca77bb11ca"
   },
   "_source": "git://github.com/chriso/validator.js.git",
   "_target": "^3.11.0",
