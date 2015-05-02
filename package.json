@@ -2,7 +2,6 @@
 	"name": "expressjs-website-template-with-gulp-react-bootstrap",
 	"version": "0.0.2",
 	"publishConfig" : {
-		"registry": "http://sinopia.apples.lan:4873/"
 	},
 	"private": true,
 	"description": "An ExpressJS Website Template Incorporating Gulp, React, Bootsrap and Other Popular Libraries",
