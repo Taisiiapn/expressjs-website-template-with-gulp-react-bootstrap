@@ -38,6 +38,7 @@ bower_components
 # Zazzy -when zazzy runs it puts running assembled config files in here and creates dirs for logs, builds or results
 .zz
 
+# custom Gulp build directories
 public/build/
 public/third/
 
