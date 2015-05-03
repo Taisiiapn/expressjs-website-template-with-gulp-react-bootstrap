@@ -38,7 +38,9 @@ The gulpfile contains an editable `vendors` array. Use this to control what gets
 ## Installation
 
 ```bash
-$ npm install expressjs-website-template-with-gulp-react-bootstrap
+$ git clone https://github.com/jpfluger/expressjs-website-template-with-gulp-react-bootstrap.git
+$ cd expressjs-website-template-with-gulp-react-bootstrap
+$ npm install
 ```
 
 ## RUN
