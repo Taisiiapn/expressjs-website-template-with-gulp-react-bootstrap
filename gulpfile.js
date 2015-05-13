@@ -153,7 +153,7 @@ function buildReactApp(pathFile, cb) {
     for (var i = 0; i < vendors.length; i++) {
       if ((vendors[i].varBrowserify !== undefined && vendors[i].varBrowserify !== null && vendors[i].varBrowserify.length > 0)
         && (vendors[i].requireBrowserify !== undefined && vendors[i].requireBrowserify !== null && vendors[i].requireBrowserify.length > 0)) {
-          objVendorsREACT[vendors[i]] = vendors[i].requireBrowserify;
+          objVendorsREACT[vendors[i].varBrowserify] = vendors[i].requireBrowserify;
       }
     }
 
