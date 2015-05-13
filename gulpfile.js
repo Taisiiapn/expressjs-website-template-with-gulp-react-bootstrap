@@ -134,34 +134,9 @@ gulp.task('vendors-css', function() {
   BROWSERIFYING REACT
 */
 
-var htmlreplace = require('gulp-html-replace');
 var source = require('vinyl-source-stream');
 var browserify = require('browserify');
-var watchify = require('watchify');
 var reactify = require('reactify');
-
-// The REACT core bundle
-gulp.task('browserify-react', function() {
-
-  if (!isDebug) {
-    return browserify({
-      debug: isDebug
-    })
-    .require('react')
-    .bundle()
-    .pipe(source('react.js'))
-    .pipe(streamify(uglify()))
-    .pipe(gulp.dest(gpath.DEST_BUILD_THIRD));
-  } else {
-    return browserify({
-      debug: isDebug
-    })
-    .require('react')
-    .bundle()
-    .pipe(source('react.js'))
-    .pipe(gulp.dest(gpath.DEST_BUILD_THIRD));
-  }
-});
 
 // The APPS using REACT
 var glob = require('glob');
@@ -268,21 +243,21 @@ gulp.task('default', function(callback) {
 gulp.task('dev-build', function(callback) {
   runSequence(['clean'],
               ['bower', 'debug-true'],
-              ['vendors-js', 'vendors-css', 'browserify-react', 'browserify-react-apps'],
+              ['vendors-js', 'vendors-css', 'browserify-react-apps'],
               finishedRunSequence);
 });
 
 gulp.task('prod-build', function(callback) {
   runSequence(['clean'],
               ['bower', 'debug-false'],
-              ['vendors-js', 'vendors-css', 'browserify-react', 'browserify-react-apps'],
+              ['vendors-js', 'vendors-css', 'browserify-react-apps'],
               finishedRunSequence);
 });
 
 gulp.task('dev-server', function(callback) {
   runSequence(['clean'],
               ['bower', 'debug-true'],
-              ['vendors-js', 'vendors-css', 'browserify-react', 'browserify-react-apps'],
+              ['vendors-js', 'vendors-css', 'browserify-react-apps'],
               'watch',
               'start-server',
               finishedRunSequence);
@@ -291,7 +266,7 @@ gulp.task('dev-server', function(callback) {
 gulp.task('prod-server', function(callback) {
   runSequence(['clean'],
               ['bower', 'debug-false'],
-              ['vendors-js', 'vendors-css', 'browserify-react', 'browserify-react-apps'],
+              ['vendors-js', 'vendors-css', 'browserify-react-apps'],
               'watch',
               'start-server',
               finishedRunSequence);

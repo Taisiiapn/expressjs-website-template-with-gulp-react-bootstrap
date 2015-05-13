@@ -51,6 +51,9 @@ logs
 # should be able to tuck into .zz -- originally had it b/c using b/c Express, Blob and a few others have it
 results
 
+# compiled marko files
+*.marko.js
+
 ######################################
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm
 
