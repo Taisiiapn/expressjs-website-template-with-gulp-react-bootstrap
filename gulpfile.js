@@ -57,7 +57,7 @@ gulp.task('bower', function() {
 var concat = require('gulp-concat');
 var streamify = require('gulp-streamify');
 var uglify = require('gulp-uglify'); // js compress
-var minifyCSS = require('gulp-minify-css'); // css compress
+var minifyCSS = require('gulp-cssnano'); // css compress
 
 var vendors = [
         { type: 'js', path: './public/third/jquery/dist/jquery.js', varBrowserify: 'jquery', requireBrowserify: 'window.$' },
@@ -133,10 +133,11 @@ gulp.task('vendors-css', function() {
 /*
   BROWSERIFYING REACT
 */
-
 var source = require('vinyl-source-stream');
 var browserify = require('browserify');
-var reactify = require('reactify');
+var babelify = require('babelify');
+var babelifyPresetES2015 = require('babel-preset-es2015');
+var babelifyPresetReact = require('babel-preset-react');
 
 // The APPS using REACT
 var glob = require('glob');
@@ -161,7 +162,7 @@ function buildReactApp(pathFile, cb) {
 
     var appBundler = browserify({
         entries: pathFile,
-        transform: [reactify, literalify.configure(objVendorsREACT)],
+        transform: [[babelify, {presets: [babelifyPresetES2015, babelifyPresetReact]}], [literalify.configure(objVendorsREACT)]],
         debug: isDebug,
         cache: {}, packageCache: {}, fullPaths: true
       });
@@ -217,7 +218,10 @@ gulp.task('start-server', function () {
     //.on('change', ['lint'])
     .on('restart', function () {
       console.log('Starting server at ' + new Date().toLocaleString())
-    })
+    }).once('exit', function () {
+      console.log('Exiting the server');
+      process.exit(0);
+  });
 })
 
 /*
