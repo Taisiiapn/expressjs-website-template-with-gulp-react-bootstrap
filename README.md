@@ -16,13 +16,11 @@ Vendors included in bower:
 - bootstrap v3.3
 - jquery (gets auto-downloaded by bootstrap)
 - font-awesome v4.3
-- react v0.13
-- lodash v3.4
-- moment v2.0
+- react v0.14
+- lodash v4.11
 - numeraljs v1.5.3
-- validator-js v3.11
-- react-bootstrap v0.19.1
-- bootstrap-dialog v1.34.3
+- validator-js v3.30
+- react-bootstrap v0.28.3
 
 Gulp tasks will do the following:
 
