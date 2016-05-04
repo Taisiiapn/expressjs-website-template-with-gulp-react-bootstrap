@@ -18,7 +18,13 @@
 	"engines": {
 		"node": ">=0.12"
 	},
-	"bin": {
+	"bin": {},
+	"scripts": {
+		"test": "mocha",
+		"dev-build": "gulp dev-build",
+		"dev-server": "gulp dev-server",
+		"prod-build": "gulp prod-build",
+		"prod-server": "gulp prod-server"
 	},
 	"main": "src/server",
 	"keywords": [
